@@ -11,7 +11,7 @@ export function AboutCoverSection() {
                     alt="Morphisor" 
                     priority
                     sizes="(max-width: 768px) 100vw,(max-width: 1180px) 50vw, 50vw"
-                    className="w-4/5 xs:w-3/4 md:w-full h-full object-contain object-center"
+                    className="w-4/5 xs:w-3/4 md:w-full h-full object-contain object-center rounded-full"
                 />
             </div>
             <div className="w-full md:w-1/2 flex flex-col text-left items-start justify-center px-5 xs:pb-10 lg:px-16">
