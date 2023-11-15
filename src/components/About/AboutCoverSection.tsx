@@ -1,5 +1,5 @@
 import Image from "next/image";
-import profileCharacter from "@/public/character.png"
+import profileCharacter from "@/public/character.jpg"
 
 export function AboutCoverSection() {
     return (

@@ -18,7 +18,7 @@ export function RecentPosts(props: Props) {
             underline underline-offset-2 text-base md:text-lg">View All</Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gird-rows-2 gap-16 mt-16">
-                {sortedBlogs.slice(5, 11).map((blog, index) => 
+                {sortedBlogs.slice(4, 11).map((blog, index) => 
                 <article key={index} className="col-span-1 row-span-1 relative">
                     <BlogLayoutThree blog={blog} />
                 </article>)}

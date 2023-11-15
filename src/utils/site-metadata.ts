@@ -5,13 +5,12 @@ export const SITE_METADATA = {
     description: 'Personal blog for sharing dev tips',
     language: 'en-us',
     theme: 'system', // system, dark or light
-    siteUrl: 'https://create-blog-with-nextjs.vercel.app', // your website URL
+    siteUrl: 'https://morphisor.vercel.app', // your website URL
     siteLogo: '/logo.png',
     socialBanner: '/social-banner.png', // add social banner in the public folder
-    email: 'a.gallitri@gmail.com', 
-    github: 'https://github.com/codebucks27',
-    twitter: 'https://twitter.com/code_bucks',
-    linkedin: 'https://www.linkedin.com/in/codebucks/',
-    personal: 'https://github.com/codebucks27',
+    github: 'https://github.com/Morphisor',
+    twitter: 'https://twitter.com/Morphisor00',
+    linkedin: 'https://www.linkedin.com/in/augusto-gallitri-96038212a/',
+    personal: 'https://morphisor.github.io/PersonalPage/',
     locale: 'en-US',
 }

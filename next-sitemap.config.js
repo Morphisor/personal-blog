@@ -1,4 +1,4 @@
 module.exports = {
-    siteUrl: 'https://create-blog-with-nextjs.vercel.app',
+    siteUrl: 'https://morphisor.vercel.app',
     generateRobotsTxt: true
 }
