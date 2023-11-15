@@ -10,7 +10,7 @@ export function Footer() {
                 Interesting Stories | Updates | Guides
             </h3>
             <p className="mt-5 mb-5 px-4 text-center w-full sm:w-3/5 font-light dark:font-medium text-sm sm:text-base">
-                Subscribe to learn about new technology and updates. Join over 5000+ members community to stay up to date with latest news.
+                Personal blog for sharing my knowledge of new technologies in the world of web development.
             </p>
             <div className="flex items-center mt-8">
                 <a href={SITE_METADATA.linkedin} className='inline-block w-6 h-6 mr-4' >

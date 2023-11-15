@@ -7,7 +7,13 @@ const SkillList = [
     "ASP.NET",
     "C#",
     "react",
-    "angular"
+    "angular",
+    "MS SQL",
+    "Raven DB",
+    "Mongo DB",
+    "Elastic Search",
+    "Azure",
+    "Docker"
   ];
   
 

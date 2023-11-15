@@ -19,7 +19,7 @@ export function AboutCoverSection() {
                     Dream Big, Work Hard, Achieve More!
                 </h2>
                 <p className="font-medium capitalize mt-4 text-base">
-                    This Mantra Drives My Work As A Passionate Freelancer. I Blend Innovative Technology With Timeless Design For Captivating Digital Experiences. Inspired By Nature And Literature, Im A Perpetual Learner Embracing Challenges. With Each Project, I Aim To Leave A Lasting Impact—One Pixel At A Time.
+                As a senior full-stack developer, each line of code is my canvas for innovation. I turn challenges into opportunities, crafting websites for immersive experiences. Adaptability is my strength in the dynamic tech landscape, where innovation and collaboration drive my career forward. My unique perspective weaves into a tapestry of continuous learning, creating a harmonious journey toward new coding horizons. Happy coding!
                 </p>
             </div>
         </section>
