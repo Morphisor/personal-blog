@@ -1,0 +1,105 @@
+---
+title: "When to use Micro-frontends"
+description: "This reflects my experiences with microfrontends and when I believe they should be employed."
+image: "../../public/blogs/micro-frontend.png"
+publishedAt: "2023-11-24"
+updatedAt: "2023-11-24"
+author: "Morphisor"
+isPublished: true
+tags: 
+- React
+- Web Development
+- Micro-frontends
+---
+
+I've been working with Micro Frontends for several years now, 
+and I believe I've accumulated enough experience to share my perspective on when they should be employed.
+
+I believe that, for a sufficiently large team with well-organized domains, 
+implementing separate pipelines within a monorepo structure is a reasonable design choice for maintaining independent team progress.
+
+However, my skepticism arises from the observation that few teams find themselves in this favorable position. 
+For those that do, my suggestion is to prioritize domain factorization before embracing a more complex architecture. 
+The intricacies of Micro Frontends (MFEs) introduce challenges in releasing, moving, and testing code cohesively.
+
+Instead, I propose initiating the process with a modular monolith and dedicating effort to the substantial task of refactoring domains 
+before delving into the comparatively simpler task of establishing new pipelines.
+
+## Micro-frontends primer
+Micro-frontends (MFEs) aren't a naive concept. It's widely understood that breaking down software systems into isolated components facilitates evolution. 
+Similarly, there's no inherent reason why large front-end JavaScript apps shouldn't benefit from modularization.
+
+Drawing parallels with microservices, originally promoted for backend scalability, 
+the true motivation was providing teams with individual contexts to enhance scalability. 
+This led to the emergence of micro-frontends, reflecting the intuitive advantages of microservices. 
+Instead of a single JavaScript app in one repository with a solitary pipeline, the pattern involves splitting N apps into N repositories with N pipelines. 
+While some opt for a monorepo setup, it's not universally adopted.
+
+## Problems with Micro-frontends
+Here are the critical factors I believe contribute to challenges with Micro-frontends:
+1. Distributing a monolith across separate components can lead to significant difficulties.
+2. Splitting appears simpler, but refactoring is essential before the division can occur.
+3. Micro-frontends have the potential to manifest as a type of "rewrite fever."
+
+### Don't create a ditributed monolith!
+Large frontend applications suitable for Micro-frontends often exhibit a high degree of interdependence, 
+prompting MFE architectures to propose context-sharing mechanisms or state-passing techniques. 
+This might involve JavaScript bundles exposing global functions or using postMessage as an event bus. 
+However, as more state is shared, and dependencies increase, true isolation becomes harder to achieve.
+
+This presents a challenge compared to interdependencies within a monolith, where refactoring is straightforward. 
+Within a monolith, dependencies can be removed or modified in a single commit, and understanding them involves examining a single repository. 
+TypeScript can ensure that changes are well-managed, and a single test pipeline can verify modifications.
+
+However, Micro-frontends can incur overhead if not approached intelligently. 
+Deployment may require careful orchestration across multiple locations, shared code may face challenges with versioning, and integration testing becomes more complex. 
+Engineers may need to navigate multiple repositories to comprehend the entire system, leading to an impractical developer experience.
+
+In my perspective on Micro-frontends, when they are employed, it is crucial to meticulously assess and minimize dependencies. 
+However, reducing dependencies is challenging when dealing with tightly-coupled code, as discussed in the next point.
+
+### Refactor before splitting
+Imagine our frontend app as a tangled web of interdependencies, resembling a hairball. 
+The question arises: how do we untangle this complexity? 
+Engineers, and even managers, often get so excited about moving away from the monolith that they overlook the crucial intermediate step of disentangling the hairball.
+
+One might be tempted to defer decoupling, thinking it can be addressed during the migration process. 
+However, this approach is problematic. It leads to a state where some code is migrated, but the remaining portion remains tightly coupled. 
+It's more effective to minimize the scope of each incremental change, avoiding the attempt to merge refactoring and replatforming into a single mission.
+
+### The rewrite fever
+At times, engineers (and managers) become so frustrated with a subpar codebase that they daydream about scrapping it entirely. 
+In microfrontend projects, teams may consider using Micro Frontends (MFEs) as a means to essentially rewrite the codebase from scratch, 
+sidestepping the complexities of the original project.
+
+However, rewrites pose significant risks. The allure lies in the perception that writing code is easier than deciphering existing code. 
+Developers may believe that, armed with modern tools and consolidated knowledge, they can outperform the original engineers. 
+This may be influenced by a touch of "main character syndrome," where the last project failed because "I" didn't write it. 
+Yet, the actual rewrite proves more intricate than anticipated, as the old code harbors hidden secrets and edge cases that weren't immediately apparent.
+
+In MFEs, the motivation often stems from a poorly structured monolith codebase that becomes a strong temptation for rewrites. 
+However, if you've reached this point, your pages and UI are likely too complex to be rewritten swiftly. 
+A Product page accumulating five years of code requires substantial effort to understand and unravel. 
+Transitioning it into a Next.js app won't expedite this process. 
+While an incremental rewrite via MFEs is preferable to a total rewrite in a new monolith, the difference is marginal.
+
+## Modularize before going to Micro-frontends
+Maintain a single repository and build initially, but begin structuring your code into packages with stringent architectural boundaries. 
+Ensure these packages interact solely through well-defined, minimal interfaces, ideally utilizing a compact user context object with essentials like ID and tokens. 
+While packages can share idempotent state such as API caches, avoid sharing context like Redux stores or React context.
+
+As you divide the code, consider implementing tools like Yarn workspaces tailored for managing a monorepo. 
+This allows actions such as separating unit tests and only running suites for the modified parts. 
+These steps yield Micro Frontend (MFE)-like benefits without excessive overhead.
+
+Gradually progress towards a microfrontend-like architecture within the monorepo, incorporating separate pipelines and fully differential builds over time.
+
+## Final Words
+Despite the aforementioned criticism, I envision an app evolving into something akin to a microfrontend project, 
+albeit with more control and oversight compared to the polyrepo MFEs adopted by other organizations. 
+This transformation, however, will only occur once domain isolation and design-level refactoring are predominantly completed. 
+At that point, the codebase parts will be adequately isolated, enabling independent work.
+
+Avoid undertaking grand projects to implement the latest architecture trends. 
+Instead, identify problems, address them iteratively, and refrain from skipping the essential task of meticulously separating the code into distinct units. 
+Otherwise, you may find your challenging frontend monolith merely transformed into a distributed monolith MFE.

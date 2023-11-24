@@ -18,10 +18,10 @@ export function FeaturedPosts(props: Props) {
                     <BlogLayoutOne blog={sortedBlogs[1]} />
                 </article>
                 <article className="col-span-2 sm:col-span-1 row-span-1 relative">
-                    <BlogLayoutTwo blog={sortedBlogs[0]} />
+                    <BlogLayoutTwo blog={sortedBlogs[2]} />
                 </article>
                 <article className="col-span-2 sm:col-span-1 row-span-1 relative">
-                    <BlogLayoutTwo blog={sortedBlogs[2]} />
+                    <BlogLayoutTwo blog={sortedBlogs[0]} />
                 </article>
             </div>
         </section>

@@ -1,0 +1,106 @@
+---
+title: "Tech stack of this blog"
+description: "In this blog post, I will delve into the construction process of this blog and elucidate the technologies that I have employed."
+image: "../../public/blogs/tech-stack-of-this-blog.png"
+publishedAt: "2023-11-17"
+updatedAt: "2023-11-17"
+author: "Morphisor"
+isPublished: true
+tags: 
+- Web Development
+- Next.js
+- React.js
+- Tailwind CSS
+---
+
+I have harbored a long-standing desire to establish a blog, 
+providing a platform to narrate my experiences within the realm of front-end development. 
+Now that I have successfully brought this aspiration to fruition, 
+what could serve as a more fitting inaugural blog post than an exploration of the technological framework underpinning its creation? In this post, 
+I will expound upon the technologies I have employed, offering insights into both my appreciations and reservations.
+
+## Next.js
+[Next.js](https://nextjs.org/) is a framework built on top of React. It extends React by providing a structure and set of conventions for building full-fledged web applications.
+
+I have decided to use Next.js instead of plain React to ensure 
+better SEO and also performance given the kind of optimization 
+that Next.js is capable of doing.
+
+## Supabase
+[Supabase](https://supabase.com/) is an open-source platform that provides a set of tools 
+and services for building and scaling applications with a focus 
+on backend infrastructure. It offers a real-time, relational database 
+service along with other features to simplify the development of web and 
+mobile applications. 
+
+This was my first time using one of these 
+services. At work I'm accustomed to using a type of backend that 
+is developed internally, mainly in ASP.NET. However, for this kind of 
+rapid development it's fantastic, I was able to implement 
+the view count feature in a matter of minutes.
+
+## Contentlayer
+[Contentlayer](https://contentlayer.dev/) is a headless content management system (CMS) 
+that allows developers to manage content for their websites or applications. 
+It provides a flexible and API-driven approach to content management, 
+separating the content creation and management process from 
+the presentation layer.
+
+This is the main tool I use for writing the content of the blogs. 
+It allows me to write the blogs in `.mdx` format,
+ and when the site is built, ContentLayer handles the generation of 
+ the page from that `.mdx` file. Additionally, it enables me to add a 
+ schema to each blog so I can include useful information 
+ such as the published date or the cover image.
+
+## Styles
+### Tailwind
+Tailwind CSS is a utility-first CSS framework that provides low-level utility classes to build designs directly in your markup. Unlike traditional CSS frameworks like Bootstrap or Foundation that offer predefined components, Tailwind focuses on providing small, composable utility classes that can be combined to create custom designs.
+
+Thanks to Tailwind, even someone like me, who is primarily a programmer and not a UI/UX engineer, was able to (hopefully) create a good-looking site without pulling my hair out. It was very easy and intuitive to implement styles for the dark theme and the mobile UI.
+
+One of the main problems I encountered was the styling of articles, documents, or blog posts with Tailwind. I thought this would be a tedious task that required a keen eye for typography and a lot of complex custom CSS.
+
+By default, Tailwind removes all of the default browser styling from paragraphs, headings, lists, and more. This ends up being really useful for building application UIs because you spend less time undoing user-agent styles, but when you really are just trying to style some content that came from a rich-text editor in a CMS or a markdown file, it can be surprising and unintuitive.
+
+There seems to be a lot of people that are regulary complaining about this:
+> Why is Tailwind removing the default styles on my `h1` elements? How do I disable this? What do you mean I lose all the other base styles too?
+> We hear you, but we're not convinced that simply disabling our base styles is what you really want. You don't want to have to remove annoying margins every time you use a `p` element in a piece of your dashboard UI. And I doubt you really want your blog posts to use the user-agent styles either — you want them to look _awesome_, not awful.
+
+But the `@tailwindcss/typography` plugin comes to the rescue!
+
+
+It adds a new `prose` class that you can slap on any block of vanilla HTML content and turn it into a beautiful, well-formatted document:
+```html
+<article className="prose">
+  <h1>Garlic bread with cheese: What the science tells us</h1>
+  <p>
+    For years parents have espoused the health benefits of eating garlic bread
+    with cheese to their children, with the food earning such an iconic status
+    in our culture that kids will often dress up as warm, cheesy loaf for
+    Halloween.
+  </p>
+  <p>
+    But a recent study shows that the celebrated appetizer may be linked to a
+    series of rabies cases springing up around the country.
+  </p>
+</article>
+```
+For more information about how to use the plugin and the features it includes, [read the documentation](https://github.com/tailwindcss/typography/blob/master/README.md).
+
+### Rehype and other plugins
+As mentioned above, thanks to the typography plugin, I was able to produce a formatted document without too much headache. Additionally, thanks to these plugins, I was able to put the icing on the cake, so to speak. 
+In particular I'm using:
+- **rehype-autolink-headings**
+  This is a plugin to add links from headings back to themselves. It looks for headings that have id properties, and injects a link to themselves. Similar functionality is applied by many places that render markdown. For example, when browsing this readme on GitHub or npm, an anchor is added to headings, which you can share to point people to a particular place in a document.
+- **rehype-pretty-code**
+  Rehype Pretty Code is a Rehype plugin powered by the Shiki syntax highlighter that provides beautiful code blocks for Markdown or MDX. It's fast since it avoids runtime syntax highlighting by executing at build-time, and works with new features like React Server Components.
+- **rehype-slug**
+  This is a plugin to add ids to headings. It looks for headings that do not yet have ids and adds id attributes to them based on the text they contain.
+- **remark-gfm**
+  This is plugin to enable the extensions to markdown that GitHub adds with GFM: autolink literals (www.x.com), footnotes ([^1]), strikethrough (~~stuff~~), tables (| cell |…), and tasklists (* [x])
+
+## Final Remarks
+And that's about it; the site is then deployed using [Vercel].(https://vercel.com/) 
+
+The code is open source, and you can look through the code [here] (https://github.com/Morphisor/personal-blog).

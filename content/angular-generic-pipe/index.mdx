@@ -1,0 +1,79 @@
+---
+title: "Create Generic Angular Pipes"
+description: "How to implement a reusable angular pipe"
+image: "../../public/blogs/angular-generic-pipe.jpg"
+publishedAt: "2023-11-20"
+updatedAt: "2023-11-20"
+author: "Morphisor"
+isPublished: true
+tags: 
+- Angular
+- Web Development
+---
+
+I often find myself, more often than not, dealing with functions that could be better utilized as pipes for transforming values within the template. 
+However, these functions tend to be somewhat specific and lack reusability, making it impractical to define a dedicated pipe for each one. 
+After some exploration, I stumbled upon a method of declaring a pipe that accepts a function, which is then employed to transform the value.
+```typescript
+@Pipe({ name: 'transform' })
+export class TransformPipe implements PipeTransform {
+
+  /**
+   * @param thisArg the piped argument
+   * @param transformFunc the function to invoke
+   * @param args additinal agruments that whill be passed to the function
+   */
+  public transform<T, R>(thisArg: T, transformFunc: (t: T, ...args: any[]) => R, ...args: any[]): R {
+    return transformFunc(thisArg, ...args);
+  }
+```
+With this, you can write functions in your components and pass the function itself as a pipe argument. For example:
+```typescript
+@Component({
+  selector: 'my-app',
+  template: `<p>{{fib | transform: sum}}</p>`
+})
+
+class AppComponent  {
+  fib = [1, 2, 3, 5, 8];
+
+  public sum(collection: number[]): number {
+    return collection.reduce((first, second) => first + second);
+  }
+}
+```
+
+## Tips and Tricks
+This allows you to have one pipe that can accept any function. 
+One thing to consider is that this function will be called by the Angular framework, and you will be outside the context of your component. 
+Thus, you will not have access to instance members inside this function. 
+One way to solve that is to bind the function you want to use and pass that bound reference to the pipe.
+```typescript
+@Component({
+  selector: 'my-app',
+  template: `<p>{{fib | transform: sumBound}}</p>`
+})
+
+class AppComponent  {
+  fib = [1, 2, 3, 5, 8];
+  sumBound: (collection: number[]) => number;
+
+  constructor() {
+    this.sumBound = this.sum.bind(this)
+  }
+
+  public sum(collection: number[]): number {
+    return collection.reduce((first, second) => first + second);
+  }
+}
+```
+
+As you can see, we are binding the function to our context. 
+This way, even when it's invoked by the Angular framework, we still retain access to our instance context.
+
+## Pure and Impure
+One thing you might consider is declaring one pure and one impure version of this pipe, as with pure pipes, you gain a lot of advantages if you can leverage them:
+1. First, pure pipes evaluate only when the input changes. Second, they cache the outputs for previously evaluated inputs and can bind the result from the cache without re-evaluating the pipe expression if the same input was previously evaluated.
+2. A single instance of a pure pipe is used for all bindings in the app, across components.
+3. You just need to test the transform function, known input to known output.
+But keep in mind that to be able to use a pure pipe, the function that you pass to the pipe should also be pure, and you should have a way to identify or differentiate between different inputs.

@@ -1,0 +1,112 @@
+---
+title: "Usefull react hooks"
+description: "Two of usefull hooks I've fuond"
+image: "../../public/blogs/react-hooks.jpg"
+publishedAt: "2023-11-22"
+updatedAt: "2023-11-22"
+author: "Morphisor"
+isPublished: true
+tags: 
+- React
+- Web Development
+---
+
+Today, I would like to share two hooks that I frequently find the need to use. 
+The implementations are straightforward, and I often discover that it is simpler to write them myself than to add yet another npm package.
+
+## useDebounce
+This hook is very useful if you need to maintain the state of a value coming from an input field 
+but don't want the update to trigger every time the user inputs a character.
+```typescript
+export function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value)
+
+  useEffect(() => {
+    // Update debounced value after delay
+    const handler = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    // Cancel the timeout if value changes (also on delay change or unmount)
+    // This is how we prevent debounced value from updating if value is changed ...
+    // .. within the delay period. Timeout gets cleared and restarted.
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [value, delay])
+
+  return debouncedValue
+}
+```
+
+As you can see, it's waiting for the requested debounce time before updating the state. 
+Therefore, if you use this debounced value to trigger some heavy computation, 
+you can be certain that you are doing so only when the user has stopped typing. Here is an example of how to use it:
+```typescript
+const [value, setValue] = useState('')
+const debouncedValue = useDebounce(value, 300)
+
+useEffect(() => {
+  //DO WORK
+}, [debouncedValue])
+```
+
+## useOnClickOutside
+This hook addresses the need to determine when the user is clicking outside a particular element, typically for closing popups or tooltips. 
+I find this approach very elegant. Instead of consistently adding global event listeners everywhere, using this hook ensures that it will clean up after itself.
+```typescript
+export function useOnClickOutside(
+  htmlNode: HTMLElement | null,
+  handler: (event?: MouseEvent | TouchEvent) => void,
+): void {
+  useEffect(
+    () => {
+      if (htmlNode) {
+        const listener = (event: MouseEvent | TouchEvent) => {
+          // Do nothing if clicking ref's element or descendent elements
+          if (htmlNode.contains(event.target as Node)) {
+            return
+          }
+          handler(event)
+        }
+        document.addEventListener('mousedown', listener)
+        document.addEventListener('touchstart', listener)
+        return () => {
+          document.removeEventListener('mousedown', listener)
+          document.removeEventListener('touchstart', listener)
+        }
+      }
+      return undefined
+    },
+    // It's worth noting that because passed in handler is a new ...
+    // ... function on every render that will cause this effect ...
+    // ... callback/cleanup to run every render. It's not a big deal ...
+    // ... but to optimize you can wrap handler in useCallback before ...
+    // ... passing it into this hook.
+    [htmlNode, handler],
+  )
+}
+```
+
+Here is an example of how to use it:
+```typescript
+export default function Component() {
+  const ref = useRef(null)
+
+  const handleClickOutside = () => {
+    // Your custom logic here
+    console.log('clicked outside')
+  }
+
+  useOnClickOutside(ref, handleClickOutside)
+
+  return (
+    <button
+      ref={ref}
+      style={{ width: 200, height: 200, background: 'cyan' }}
+    />
+  )
+}
+```
+As you can see, you need to pass a ref to the element for which you want to determine if the user has clicked outside or not. 
+After that, you have your callback to act when the user has clicked outside, allowing you to close your popup or perform whatever action is necessary.
