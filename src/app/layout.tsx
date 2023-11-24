@@ -56,12 +56,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={cx(inter.variable, manrope.variable, 'font-mr bg-light dark:bg-dark')}>
       <Script async src="https://www.googletagmanager.com/gtag/js?id=G-J05278L1KT"></Script>
-      <Script>
+      <Script id="google-analytics">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-        
+
           gtag('config', 'G-J05278L1KT');
         `}
       </Script>
