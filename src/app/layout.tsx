@@ -54,17 +54,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="google-site-verification" content="-8Wt0y0dQrlOtgUnp1hk689sNmgToTlL5e78QUqsNxs" />
+      </head>
       <body className={cx(inter.variable, manrope.variable, 'font-mr bg-light dark:bg-dark')}>
-      <Script async src="https://www.googletagmanager.com/gtag/js?id=G-J05278L1KT"></Script>
-      <Script id="google-analytics">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'G-J05278L1KT');
-        `}
-      </Script>
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-J05278L1KT"></Script>
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+    
+            gtag('config', 'G-J05278L1KT');
+          `}
+        </Script>
         <ThemeScript />
         <Header />
         {children}
