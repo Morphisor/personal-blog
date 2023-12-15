@@ -15,7 +15,7 @@ export function  Categories({ categories, currentSlug }: Props) {
                 key={cat}
                 link={`/categories/${cat}`}
                 name={cat}
-                active={cat === slug(currentSlug)}
+                active={cat.toLowerCase() === slug(currentSlug).toLowerCase()}
             />)}
         </div>
     )

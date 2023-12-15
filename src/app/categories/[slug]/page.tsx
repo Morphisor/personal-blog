@@ -1,6 +1,6 @@
 import { BlogLayoutThree } from "@/src/components"
 import { Categories } from "@/src/components/Blog/Categories"
-import { SITE_METADATA } from "@/src/utils/site-metadata"
+import { distinct } from "@/src/utils"
 import { allBlogs } from "contentlayer/generated"
 import GithubSlugger, { slug } from "github-slugger"
 
@@ -30,16 +30,15 @@ export async function generateMetadata({ params }: { params: {slug: string} }) {
 }
 
 export default function CategoryPage({ params }: { params: {slug: string} }) {
-    let allCategories = ["all"]
+    const blogTags = allBlogs.flatMap(b => b.tags as string[]).filter(distinct)
+    const allCategories = ["all", ...blogTags]
     const blogs = allBlogs.filter(
         blog => {
             return blog.tags?.some(t => {
                 const slugified = slug(t)
-                if (!allCategories.includes(slugified))
-                    allCategories.push(slugified)
-                if (params.slug === "all")
+                if (params.slug.toLowerCase() === "all")
                     return true
-                return slugified === params.slug
+                return slugified.toLowerCase() === params.slug.toLowerCase()
             })
         })
 
