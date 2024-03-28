@@ -1,0 +1,102 @@
+---
+title: "Debugging useEffect hook"
+description: "How to get some insight on what caused a useEffect hook to trigger"
+image: "../../public/blogs/useeffect-debugger.png"
+publishedAt: "2024-03-28"
+updatedAt: "2024-03-28"
+author: "Morphisor"
+isPublished: true
+tags: 
+- React
+- Web-Development
+---
+
+As developers, we're constantly on the lookout for tools and techniques that make our lives easier, 
+especially when it comes to debugging. 
+Today, we're diving deep into a powerful utility that supercharges the debugging process for React's `useEffect` hook. 
+This utility, `useEffectDebugger`, is a game-changer for those pesky useEffect issues that sometimes leave us scratching our heads. 
+Let's unravel the mystery behind this utility, how it works, and why it should be your go-to tool for debugging useEffect hooks.
+
+## The Problem with useEffect Debugging
+React's `useEffect` hook is a cornerstone of functional component side effects management. 
+However, understanding why a particular effect was triggered can be challenging, especially in complex components with multiple dependencies. 
+This lack of transparency can lead to hours of console logging and frustration.
+
+## Enter useEffectDebugger
+The `useEffectDebugger` hook is designed to address this exact problem. 
+It provides a detailed log of useEffect triggers, showing you not only when an effect is triggered but also what specific dependencies changed and their before-and-after values. 
+This utility is invaluable for development environments where insight into hook behavior is crucial for speedy debugging.
+
+## How It Works
+The `useEffectDebugger` wraps around the native useEffect hook, accepting the same parameters 
+with two additional ones: `depenencyNames` for clearer logging, and `logName` for easier log identification. 
+It utilizes a custom hook, `usePrevious`, to keep track of the previous values of the dependencies array, 
+enabling a comparison between renders.
+
+The usePrevious Hook
+
+Before we dive into the debugger itself, let's discuss the usePrevious hook. 
+This hook captures and retains the previous value of a variable across component re-renders, an essential feature for our debugger.
+
+```typescript
+import { useEffect, useRef } from 'react'
+
+const usePrevious = (value, initialValue) => {
+  const ref = useRef(initialValue)
+  useEffect(() => {
+    ref.current = value
+  })
+  return ref.current
+}
+```
+
+The Core: useEffectDebugger
+
+Now, onto the main attraction. The `useEffectDebugger` hook extends the functionality of useEffect, 
+providing deep insights into dependency changes.
+
+```typescript
+export const useEffectDebugger = (
+  effectHook,
+  dependencies,
+  depenencyNames = [],
+  logName
+) => {
+  const previousDeps = usePrevious(dependencies, [])
+  const changedDeps = dependencies.reduce((accum, dependency, index) => {
+    if (dependency !== previousDeps[index]) {
+      const keyName = depenencyNames[index] || index
+      return {
+        ...accum,
+        [keyName]: { before: previousDeps[index], after: dependency },
+      }
+    }
+    return accum
+  }, {})
+
+  if (Object.keys(changedDeps).length) {
+    console.log(`🪲 [use-effect-debugger] ${logName ? `- ${logName} ` : ''}`, changedDeps)
+  }
+
+  useEffect(effectHook, dependencies)
+}
+```
+
+## Why You Should Use It
+
+1. **Clarity**: Understand exactly why your useEffect hook was triggered.
+2. **Efficiency**: Save time otherwise spent on manual logging or guesswork.
+3. **Development Speed**: Quickly identify and fix side-effect related bugs.
+
+## Caveat
+While `useEffectDebugger` is a powerful tool for development, remember to exclude it from your production builds. 
+It's meant as a development aid and could introduce unnecessary performance overheads and expose internal logic details in a production environment.
+
+## Conclusion
+`useEffectDebugger` is an invaluable tool for React developers seeking to streamline their debugging process. 
+By providing clear insights into the inner workings of useEffect hooks, 
+it reduces debugging time and enhances code understanding. 
+Incorporate it into your development workflow to tackle useEffect challenges more effectively.
+
+Remember, tools like `useEffectDebugger` empower us to build more reliable and maintainable applications 
+by understanding the intricacies of our code better. Happy debugging!
