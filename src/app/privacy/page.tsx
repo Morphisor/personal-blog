@@ -30,7 +30,7 @@ export default function PrivacyPage() {
         <p>
           A cookie is a small piece of data stored on the user&apos;s computer by the web browser while browsing a website. Cookies were designed to be a reliable mechanism for websites to remember stateful information or to record the user&apos;s browsing activity.
 
-          Our website uses these "cookies" to collection information and to improve our service. You have the option to either accept or refuse these cookies and know when a cookie is being sent to your computer. If you choose to refuse our cookies, you may not be able to use some portions of our Service.
+          Our website uses these &quot;cookies&quot; to collection information and to improve our service. You have the option to either accept or refuse these cookies and know when a cookie is being sent to your computer. If you choose to refuse our cookies, you may not be able to use some portions of our Service.
 
         </p>
 
