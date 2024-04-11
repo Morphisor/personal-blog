@@ -55,6 +55,7 @@ export default function RootLayout({
         <meta name="google-adsense-account" content="ca-pub-7507305098307175" />
       </head>
       <body className={cx(inter.variable, manrope.variable, 'font-mr bg-light dark:bg-dark')}>
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7507305098307175" crossOrigin="anonymous"></Script>
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-J05278L1KT"></Script>
         <Script id="google-analytics">
           {`
