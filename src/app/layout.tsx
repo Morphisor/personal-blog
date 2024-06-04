@@ -52,10 +52,12 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="google-site-verification" content="-8Wt0y0dQrlOtgUnp1hk689sNmgToTlL5e78QUqsNxs" />
-        <meta name="google-adsense-account" content="ca-pub-7507305098307175" />
+        <Script id="hydro_config" type="text/javascript">
+          window.Hydro_tagId = &quot;6b1f3238-e8f2-4aec-ab0c-2c3b5bc9bdf1&quot;;
+        </Script>
+        <Script id="hydro_script" src="https://track.hydro.online/"></Script>
       </head>
       <body className={cx(inter.variable, manrope.variable, 'font-mr bg-light dark:bg-dark')}>
-        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7507305098307175" crossOrigin="anonymous"></Script>
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-J05278L1KT"></Script>
         <Script id="google-analytics">
           {`
