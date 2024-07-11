@@ -1,0 +1,4 @@
+This is a Brave Creators publisher verification file.
+
+Domain: morphisor.vercel.app
+Token: 8cb43cb9dda84024fa75a1e16a1f2401e4425b6d9f908a2656ca3243c34b40bb
